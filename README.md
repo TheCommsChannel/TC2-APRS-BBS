@@ -1,4 +1,4 @@
-# TC²-BBS Meshtastic Version
+# TC²-BBS APRS Version
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B1OZ22Z)
 
