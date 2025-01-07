@@ -109,9 +109,9 @@ Example: ```P Checkpoint 3 operational. Volunteers needed.```
 **(S)END**  
 This command leaves a message for a specific user via their callsign and needs to be sent in the following format:  
 ```S <callsign> <text>```  
-Example: ```S N0CALL-1 Meet at the Trailhead at 15:00```
+Example: ```S N0CALL-1 Meet at the Trailhead at 15:00```  
 
-
+The BBS will send a notification to the callsign letting them know they have a message waiting.
 
 ## Automatically run at boot
 
