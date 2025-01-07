@@ -7,6 +7,7 @@ This is an APRS BBS only because it uses the APRS protocol and it's not meant to
 Ideally, this is meant to be used within the following frequency ranges (US users):
 2M - 144.90-145.10 & 145.50-145.80
 
+The BBS currently allows for the posting and viewing of Bulletins and Messages for end-users by callsign. More features coming soon!
 
 ## Setup
 
@@ -88,6 +89,28 @@ python main.py
 
 Be sure you've followed the Python virtual environment steps above and activated it before running.
 You should see (venv) at the beginning of the command prompt
+
+## BBS Usage
+
+To interact with the BBS, send a message to the callsign of the BBS (whatever has been put into the MYCALL part of the config)
+If the message that's sent isn't a command, the BBS will respond with a welcome message and list of the below commands:
+
+**(L)IST**  
+Sending a message with L will respond with a list of current bulletins
+
+**(M)SG**  
+Sending a message with M will respond with a list of messages that were sent to the callsign of the user requesting the list of messages.
+
+**(P)OST**  
+This command posts a bulletin and needs to be sent in the following format:  
+```P <text>```  
+Example: ```P Checkpoint 3 operational. Volunteers needed.```
+
+**(S)END**  
+This command leaves a message for a specific user via their callsign and needs to be sent in the following format:  
+```S <callsign> <text>```  
+Example: ```S N0CALL-1 Meet at the Trailhead at 15:00```
+
 
 
 ## Automatically run at boot
