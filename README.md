@@ -96,10 +96,10 @@ To interact with the BBS, send a message to the callsign of the BBS (whatever ha
 If the message that's sent isn't a command, the BBS will respond with a welcome message and list of the below commands:
 
 **(L)IST**  
-Sending a message with L will respond with a list of current bulletins
+Sending a message with `L` will respond with a list of current bulletins
 
 **(M)SG**  
-Sending a message with M will respond with a list of messages that were sent to the callsign of the user requesting the list of messages.
+Sending a message with `M` will respond with a list of messages that were sent to the callsign of the user requesting the list of messages.
 
 **(P)OST**  
 This command posts a bulletin and needs to be sent in the following format:  
