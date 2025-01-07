@@ -2,7 +2,7 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B1OZ22Z)
 
-This is the TC²-BBS for APRS. The system allows for basic mail message for specific users and bulletin boards. 
+This is the TC²-BBS for APRS. The system allows for basic mail messages for specific users and bulletin boards. 
 This is an APRS BBS only because it uses the APRS protocol and it's not meant to be used on the nationwide APRS freq 144.390MHz.
 Ideally, this is meant to be used within the following frequency ranges (US users):
 2M - 144.90-145.10 & 145.50-145.80
