@@ -62,20 +62,20 @@ Ideally, this is meant to be used within the following frequency ranges (US user
 
    You'll need to open up the config.ini file in a text editor and make your changes following the instructions below
    
-   **MYCALL**  
+   **[MYCALL]**  
    This is where you enter the callsign of your BBS. This can be your FCC callsign or eventually a tactical callsign (like BBS). If using a tactical call the BBS will need to transmit your FCC call every 10 minutes while in operation. This hasn't been implemented yet however, so it's best to use your FCC call until then.
    
-   **KISS_HOST & KISS PORT**  
+   **[KISS_HOST & KISS PORT]**  
    IP Address and Port of the host running direwolf (127.0.0.1 if the BBS is running on the same system)   
    
-   **BULLETIN_EXPIRATION_DAYS**  
+   **[BULLETIN_EXPIRATION_DAYS]**  
    Number of days to have bulletins expire 
 
-   **APRS_PATH**  
+   **[APRS_PATH]**  
    The WIDEN-n path for digipeater hops 
    
-   **RAW_PACKET_DISPLAY**  
-   IP Address of the host running direwolf (127.0.0.1 if the BBS is running on the same system) 
+   **[RAW_PACKET_DISPLAY]**  
+   Display RAW packet data on the terminal - "True" to display or "False" to not display 
 
 
 ### Running the Server
