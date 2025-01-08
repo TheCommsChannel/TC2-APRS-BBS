@@ -1,0 +1,7 @@
+aprs.db
+tocalls_cache.json
+venv/
+.venv
+.idea
+__pycache__/
+config.ini
