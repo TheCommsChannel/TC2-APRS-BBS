@@ -123,6 +123,3 @@ Example: ```PU Highway 12 closed. Use alternate routes.```
 
 Instructions coming soon....
 
-## License
-
-GNU General Public License v3.0
