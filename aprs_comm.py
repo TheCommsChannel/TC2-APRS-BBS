@@ -212,35 +212,25 @@ def start():
                 print(f"Error processing frame: {e}")
 
 def send_direct_message(recipient, message):
-    """Send a direct APRS message to a recipient with ACK request and monitor for retries."""
-    global message_counter
-
+    """Send a direct APRS message to a recipient without ACK request."""
     try:
-        message_number = message_counter
-        message_counter += 1
-
-        ack_info = f":{recipient:<9}:{message}{{{message_number}".encode('utf-8')
+        frame_info = f":{recipient:<9}:{message}".encode('utf-8')
 
         frame = aprs.APRSFrame.ui(
             destination=recipient.upper(),
             source=config.MYCALL,
             path=config.APRS_PATH,
-            info=ack_info
+            info=frame_info
         )
         ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
         ki.start()
         ki.write(frame)
-        print(f"Direct message sent to {recipient} with ACK request (msg #{message_number}): {message}")
-
-        if not wait_for_ack(ki, recipient, message_number, timeout=5):
-            print(f"No ACK received from {recipient} for message #{message_number}. Monitoring for activity...")
-            with unack_lock:
-                unacknowledged_messages[recipient.upper()] = (message, message_number)
-
+        print(f"Direct message sent to {recipient}: {message}")
         ki.stop()
 
     except Exception as e:
         print(f"Failed to send direct message to {recipient}: {e}")
+
 
 def wait_for_ack(ki, recipient, message_number, timeout=5):
     """Wait for an acknowledgment from the recipient."""

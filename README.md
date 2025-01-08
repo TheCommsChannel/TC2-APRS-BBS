@@ -7,7 +7,8 @@ This is an APRS BBS only because it uses the APRS protocol and it's not meant to
 Ideally, this is meant to be used within the following frequency ranges (US users):
 2M - 144.90-145.10 & 145.50-145.80
 
-The BBS currently allows for the posting and viewing of Bulletins and Messages for end-users by callsign. More features coming soon!
+The BBS currently allows for the posting and viewing of Bulletins and Messages for end-users by callsign. More features 
+coming soon. This software is experimental and could have bugs. Bug reports and suggestions are welcomed.
 
 ## Setup
 
