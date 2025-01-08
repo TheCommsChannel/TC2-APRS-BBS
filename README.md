@@ -101,17 +101,23 @@ Sending a message with `L` will respond with a list of current bulletins
 **(M)SG**  
 Sending a message with `M` will respond with a list of messages that were sent to the callsign of the user requesting the list of messages.
 
-**(P)OST**  
-This command posts a bulletin and needs to be sent in the following format:  
-```P <text>```  
-Example: ```P Checkpoint 3 operational. Volunteers needed.```
-
 **(S)END**  
 This command leaves a message for a specific user via their callsign and needs to be sent in the following format:  
 ```S <callsign> <text>```  
 Example: ```S N0CALL-1 Meet at the Trailhead at 15:00```  
 
 The BBS will send a notification to the callsign letting them know they have a message waiting.
+
+**(P)OST**  
+This command posts a bulletin and needs to be sent in the following format:  
+```P <text>```  
+Example: ```P Checkpoint 3 operational. Volunteers needed.```
+
+**(P)OST (U)RGENT**
+This command will post an urgent bulletin which will have the BBS send out a bulletin packet which will be seen by all 
+supported devices. It needs to be sent in the following format.
+```PU <text>```
+Example: ```PU Highway 12 closed. Use alternate routes.```
 
 ## Automatically run at boot
 

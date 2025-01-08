@@ -2,17 +2,21 @@ import sqlite3
 from datetime import datetime, timedelta
 import config
 
+
 def init_db():
     conn = sqlite3.connect('aprs.db')
     cursor = conn.cursor()
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS bulletins (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             text TEXT NOT NULL,
             poster TEXT NOT NULL,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            type TEXT DEFAULT 'normal'
         )
     """)
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS messages (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,17 +26,20 @@ def init_db():
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     """)
+
     conn.commit()
     conn.close()
+
 
 def format_timestamp(timestamp):
     dt = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
     return dt.strftime("%b%d %H:%M").upper()
 
-def add_bulletin(callsign, text):
+def add_bulletin(callsign, text, urgent=False):
     conn = sqlite3.connect('aprs.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO bulletins (text, poster) VALUES (?, ?)", (text, callsign))
+    bulletin_type = "urgent" if urgent else "normal"
+    cursor.execute("INSERT INTO bulletins (text, poster, type) VALUES (?, ?, ?)", (text, callsign, bulletin_type))
     conn.commit()
     conn.close()
 

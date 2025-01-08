@@ -37,6 +37,18 @@ def handle_command(callsign, command):
             return [f"Message sent to {recipient}."]
         return ["Usage: SEND <callsign> <text>"]
 
+    elif cmd in ['PU']:
+        if arg:
+            database.add_bulletin(normalized_callsign, f"URGENT: {arg}")
+
+            urgent_bulletin = f"URGENT: {arg}"
+            bulletin_id = "BLN1"
+            aprs_comm.send_bulletin(bulletin_id, urgent_bulletin)
+
+            return ["Urgent bulletin posted and transmitted."]
+        return ["Usage: PU <text>"]
+
+
     else:
         return [
             "Hello and Welcome to the TC2-BBS!",

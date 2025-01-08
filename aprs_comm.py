@@ -83,6 +83,28 @@ def send_ack(ki, aprs_frame):
         print(f"Failed to send ACK: {e}")
 
 
+def send_bulletin(bulletin_id, bulletin_text):
+    """Send an APRS bulletin in BLN format."""
+    try:
+        frame_info = f":{bulletin_id:<9}:{bulletin_text}".encode('utf-8')
+
+        frame = aprs.APRSFrame.ui(
+            destination="BLN",
+            source=config.MYCALL,
+            path=config.APRS_PATH,
+            info=frame_info
+        )
+
+        ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+        ki.start()
+        ki.write(frame)
+        print(f"Urgent bulletin transmitted: {bulletin_text}")
+        ki.stop()
+
+    except Exception as e:
+        print(f"Failed to send urgent bulletin: {e}")
+
+
 def start():
     ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
     ki.start()
