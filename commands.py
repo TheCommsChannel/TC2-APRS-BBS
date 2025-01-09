@@ -53,5 +53,6 @@ def handle_command(callsign, command):
         return [
             "Hello and Welcome to the TC2-BBS!",
             "Please send a message with one of the commands below.",
-            "Commands: (L)IST, (M)SG, (P)OST <text>, (S)SEND <callsign> <text>"
+            "Commands: (L)IST, (M)SG, (P)OST <text>, (S)SEND <callsign> <text>",
+            "(P)OST (U)RGENT <text>"
         ]
