@@ -119,8 +119,8 @@ Example: ```P Checkpoint 3 operational. Volunteers needed.```
 
 **(P)OST (U)RGENT**
 This command will post an urgent bulletin which will have the BBS send out a bulletin packet which will be seen by all 
-supported devices. It needs to be sent in the following format.
-```PU <text>```
+supported devices. It needs to be sent in the following format:  
+```PU <text>```  
 Example: ```PU Highway 12 closed. Use alternate routes.```
 
 ## Automatically run at boot
