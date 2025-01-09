@@ -64,9 +64,12 @@ coming soon. This software is experimental and could have bugs. Bug reports and 
 
    You'll need to open up the config.ini file in a text editor and make your changes following the instructions below
    
-   **[MYCALL]**  
-   This is where you enter the callsign of your BBS. This can be your FCC callsign or eventually a tactical callsign (like BBS). If using a tactical call the BBS will need to transmit your FCC call every 10 minutes while in operation. This hasn't been implemented yet however, so it's best to use your FCC call until then.
+   **[TACTICAL_CALL]**  
+   This is where you enter the callsign of your BBS. This can be your FCC callsign if you don't plan on using a tactical call or a tactical callsign like BBS, CAMP1, or whatever makes the most sense for you.
    
+   **[STANDARD_CALL]**  
+   If using a Tactical Call in the TACTICAL_CALL field, be sure to enter in your ham radio callsign here to ensure your callsign is in the packets to comply with FCC regulations. If you're using your ham radio callsign in the TACTICAL_CALL field, you can just leave this as TC2BBS.
+
    **[KISS_HOST & KISS PORT]**  
    IP Address and Port of the host running direwolf (127.0.0.1 if the BBS is running on the same system)   
    

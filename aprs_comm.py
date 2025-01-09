@@ -73,8 +73,8 @@ def send_ack(ki, aprs_frame):
         ack_info = f":{source:<9}:ack{message_number}".encode('utf-8')
 
         frame = aprs.APRSFrame.ui(
-            destination=source,
-            source=config.MYCALL,
+            destination=config.STANDARD_CALL,
+            source=config.TACTICAL_CALL,
             path=config.APRS_PATH,
             info=ack_info,
         )
@@ -89,8 +89,8 @@ def send_bulletin(bulletin_id, bulletin_text):
         frame_info = f":{bulletin_id:<9}:{bulletin_text}".encode('utf-8')
 
         frame = aprs.APRSFrame.ui(
-            destination="BLN",
-            source=config.MYCALL,
+            destination=config.STANDARD_CALL,
+            source=config.TACTICAL_CALL,
             path=config.APRS_PATH,
             info=frame_info
         )
@@ -126,7 +126,7 @@ def start():
     def normalize_callsign(callsign):
         return callsign.split('-')[0].upper() if callsign else ""
 
-    my_callsign = normalize_callsign(config.MYCALL)
+    my_callsign = normalize_callsign(config.TACTICAL_CALL)
     print(f"BBS Callsign: {my_callsign}")
 
     while True:
@@ -197,8 +197,8 @@ def start():
 
                         response_info = f":{source:<9}:{response}".encode('utf-8')
                         response_frame = aprs.APRSFrame.ui(
-                            destination=source,
-                            source=config.MYCALL,
+                            destination=config.STANDARD_CALL,
+                            source=config.TACTICAL_CALL,
                             path=config.APRS_PATH,
                             info=response_info,
                         )
@@ -217,8 +217,8 @@ def send_direct_message(recipient, message):
         frame_info = f":{recipient:<9}:{message}".encode('utf-8')
 
         frame = aprs.APRSFrame.ui(
-            destination=recipient.upper(),
-            source=config.MYCALL,
+            destination=config.STANDARD_CALL,
+            source=config.TACTICAL_CALL,
             path=config.APRS_PATH,
             info=frame_info
         )
