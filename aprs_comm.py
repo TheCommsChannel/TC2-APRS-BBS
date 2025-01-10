@@ -171,7 +171,7 @@ def start():
 
                     source_callsign = aprs_frame.source.callsign.decode('utf-8') if isinstance(aprs_frame.source.callsign, bytes) else aprs_frame.source.callsign
                     source_ssid = aprs_frame.source.ssid
-                    source = normalize_callsign(f"{source_callsign}-{source_ssid}")
+                    source = f"{source_callsign}-{source_ssid}" if source_ssid else source_callsign
 
                     message = aprs_frame.info.text.decode('utf-8') if isinstance(aprs_frame.info.text, bytes) else aprs_frame.info.text
 
