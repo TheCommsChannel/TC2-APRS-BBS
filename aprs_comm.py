@@ -1,13 +1,18 @@
+import os
+import json
+import random
+import string
+import threading
 import time
+from datetime import datetime
 from threading import Lock
 
 import aprs
-import os
-import json
 import requests
 
 import commands
 import config
+
 
 # Global dictionary to track unacknowledged messages
 unacknowledged_messages = {}
@@ -15,8 +20,8 @@ unack_lock = Lock()
 
 # Message numbering for ACKS
 message_counter = 1
+message_lock = threading.Lock()
 
-from datetime import datetime
 
 JSON_URL = "https://aprs-deviceid.aprsfoundation.org/tocalls.pretty.json"
 
@@ -86,8 +91,10 @@ def send_ack(ki, aprs_frame):
 def send_bulletin(bulletin_id, bulletin_text):
     """Send an APRS bulletin in BLN format."""
     try:
-        frame_info = f":{bulletin_id:<9}:{bulletin_text}".encode('utf-8')
+        message_number = get_next_message_number()
+        formatted_bulletin = f"{bulletin_text}{{{message_number}"
 
+        frame_info = f":{bulletin_id:<9}:{formatted_bulletin}".encode('utf-8')
         frame = aprs.APRSFrame.ui(
             destination=config.STANDARD_CALL,
             source=config.TACTICAL_CALL,
@@ -194,8 +201,10 @@ def start():
 
                     for response in responses:
                         dec_timestamp = datetime.now().strftime("%b%d %H:%M")
+                        message_number = get_next_message_number()
+                        formatted_response = f"{response}{{{message_number}"
 
-                        response_info = f":{source:<9}:{response}".encode('utf-8')
+                        response_info = f":{source:<9}:{formatted_response}".encode('utf-8')
                         response_frame = aprs.APRSFrame.ui(
                             destination=config.STANDARD_CALL,
                             source=config.TACTICAL_CALL,
@@ -214,7 +223,10 @@ def start():
 def send_direct_message(recipient, message):
     """Send a direct APRS message to a recipient without ACK request."""
     try:
-        frame_info = f":{recipient:<9}:{message}".encode('utf-8')
+        message_number = get_next_message_number()
+        formatted_message = f"{message}{{{message_number}"
+
+        frame_info = f":{recipient:<9}:{formatted_message}".encode('utf-8')
 
         frame = aprs.APRSFrame.ui(
             destination=config.STANDARD_CALL,
@@ -225,7 +237,7 @@ def send_direct_message(recipient, message):
         ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
         ki.start()
         ki.write(frame)
-        print(f"Direct message sent to {recipient}: {message}")
+        print(f"Direct message sent to {recipient}: {formatted_message}")
         ki.stop()
 
     except Exception as e:
@@ -255,3 +267,12 @@ def wait_for_ack(ki, recipient, message_number, timeout=5):
     except Exception as e:
         print(f"Error while waiting for ACK: {e}")
         return False
+
+
+def get_next_message_number():
+    """Generates a unique 5-character alphanumeric message number."""
+    with message_lock:
+        # Characters: A-Z and 0-9
+        characters = string.ascii_uppercase + string.digits
+        # Random 5-character combination
+        return ''.join(random.choices(characters, k=5))
