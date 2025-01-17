@@ -84,6 +84,7 @@ def send_ack(ki, aprs_frame):
             info=ack_info,
         )
         ki.write(frame)
+        time.sleep(0.3) # delay to ensure ack is sent
     except Exception as e:
         print(f"Failed to send ACK: {e}")
 
