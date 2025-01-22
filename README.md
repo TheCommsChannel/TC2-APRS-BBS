@@ -118,7 +118,7 @@ Run the server with:
 python main.py
 ```
 
-Be sure you've followed the Python virtual environment steps above and activated it before running.
+Be sure you've followed the Python virtual environment steps above and activated it with `source venv/bin/activate` before running.
 You should see (venv) at the beginning of the command prompt
 
 ## BBS Usage
