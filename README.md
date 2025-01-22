@@ -85,9 +85,9 @@ coming soon. This software is experimental and could have bugs. Bug reports and 
 ### [OPTIONAL] Steps for Bluetooth TNC Radio Users 
 
 1.  Run the following command to make the necessary scripts executable.
-   ```sh
-   chmod +x bt_pair.exp rfcomm_bind.sh
-   ```
+    ```sh
+    chmod +x bt_pair.exp rfcomm_bind.sh
+    ```
 
 2. Install "expect"
    ```sh
