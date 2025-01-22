@@ -103,7 +103,11 @@ def send_bulletin(bulletin_id, bulletin_text):
             info=frame_info
         )
 
-        ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+        if config.KISS_INTERFACE == "SERIAL":
+            ki = aprs.SerialKISS(port=config.SERIAL_PORT, speed=config.SERIAL_BAUDRATE)
+        else:
+            ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+
         ki.start()
         ki.write(frame)
         print(f"Urgent bulletin transmitted: {bulletin_text}")
@@ -114,7 +118,13 @@ def send_bulletin(bulletin_id, bulletin_text):
 
 
 def start():
-    ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+    if config.KISS_INTERFACE == "SERIAL":
+        ki = aprs.SerialKISS(port=config.SERIAL_PORT, speed=config.SERIAL_BAUDRATE)
+        print(f"Starting APRS in SERIAL mode on {config.SERIAL_PORT} at {config.SERIAL_BAUDRATE} baud...")
+    else:
+        ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+        print("Starting APRS in TCP mode...")
+
     ki.start()
 
     device_data = fetch_device_data()
@@ -235,7 +245,12 @@ def send_direct_message(recipient, message):
             path=config.APRS_PATH,
             info=frame_info
         )
-        ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+
+        if config.KISS_INTERFACE == "SERIAL":
+            ki = aprs.SerialKISS(port=config.SERIAL_PORT, speed=config.SERIAL_BAUDRATE)
+        else:
+            ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+
         ki.start()
         ki.write(frame)
         print(f"Direct message sent to {recipient}: {formatted_message}")

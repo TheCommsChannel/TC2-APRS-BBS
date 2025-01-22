@@ -15,6 +15,9 @@ KISS_HOST = 127.0.0.1
 KISS_PORT = 8001
 BULLETIN_EXPIRATION_DAYS = 7
 APRS_PATH = WIDE1-1,WIDE2-1
+KISS_INTERFACE = TCP
+SERIAL_PORT = /dev/rfcomm0
+SERIAL_BAUDRATE = 9600
 """)
 
 config.read(config_file)
@@ -26,3 +29,6 @@ KISS_PORT = config.getint("DEFAULT", "KISS_PORT", fallback=8001)
 BULLETIN_EXPIRATION_DAYS = config.getint("DEFAULT", "BULLETIN_EXPIRATION_DAYS", fallback=7)
 APRS_PATH = config.get("DEFAULT", "APRS_PATH", fallback="WIDE1-1").split(",")
 RAW_PACKET_DISPLAY = config.getboolean("DEFAULT", "RAW_PACKET_DISPLAY", fallback=False)
+KISS_INTERFACE = config.get("DEFAULT", "KISS_INTERFACE", fallback="TCP").upper()
+SERIAL_PORT = config.get("DEFAULT", "SERIAL_PORT", fallback="/dev/rfcomm0")
+SERIAL_BAUDRATE = config.getint("DEFAULT", "SERIAL_BAUDRATE", fallback=9600)
