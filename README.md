@@ -82,6 +82,33 @@ coming soon. This software is experimental and could have bugs. Bug reports and 
    **[RAW_PACKET_DISPLAY]**  
    Display RAW packet data on the terminal - "True" to display or "False" to not display 
 
+### [OPTIONAL] Steps for Bluetooth TNC Radio Users 
+
+1.  Run the following command to make the necessary scripts executable.
+   ```sh
+   chmod +x bt_pair.exp rfcomm_bind.sh
+   ```
+
+2. Install "expect"
+   ```sh
+   sudo apt install expect
+   ```
+
+3. Pairing radio: 
+   The first time you connect your radio, it will need to be paired and trusted. The bt_pair.exp makes this process easy. It will search for currently known Bluetooth TNC capable radios ("VR-N76" "UV-PRO" "GA-5WB" "TH-D75" "TH-D74" "VR-N7500") If one is found, it will pair, trust, and save the info in a file for the binding script in the next step. This step only needs to be performed once when you're first setting things up, or wanting to use a different radio.  
+
+    Run the follwing command to go through the pairing process:
+    ```sh
+    ./bt_pair.exp
+   ```   
+
+4. Binding the radio to a serial port:
+   This will need to be run before you start the server (not every time; likely only after a reboot). If you're not sure, you can run the `rfcomm` command and if you see something listed, you probably don't need to run this script. If you get nothing from the `rfcomm` command then you need to run this script to bind your radio to the serial port. After running this command, you can continue on to the "Running the Server" section
+
+    Run the following command to bind your radio to the serial port
+    ```sh
+   ./rfcomm_bind.sh
+   ```
 
 ### Running the Server
 

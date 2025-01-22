@@ -1,0 +1,116 @@
+#!/usr/bin/expect -f
+
+# Timeout for expect commands
+set timeout 30
+
+# List of target device names
+set device_names {"VR-N76" "UV-PRO" "GA-5WB" "TH-D75" "TH-D74" "VR-N7500"}
+set group_one {"VR-N76" "UV-PRO" "GA-5WB" "VR-N7500"}
+set group_two {"TH-D75" "TH-D74"}
+set device ""
+set device_group ""
+
+# Function to scan for devices with bluetoothctl
+proc scan_for_device {device_names group_one group_two} {
+    spawn bluetoothctl
+    expect "Agent registered"
+    send -- "scan on\r"
+    puts "Scanning for devices. This may take up to 30 seconds..."
+
+    set found_device ""
+    set found_group ""
+    set timeout 30
+    while {1} {
+        expect {
+            timeout { puts "No matching devices found."; send -- "scan off\r"; exit 1 }
+            eof { puts "Unexpected end of bluetoothctl"; exit 1 }
+            -re {Device ([A-F0-9:]{17}) (.+)} {
+                set mac $expect_out(1,string)
+                set name $expect_out(2,string)
+                foreach device_name $device_names {
+                    if {[string match "*$device_name*" $name]} {
+                        puts "Found device: $name with MAC $mac"
+                        set found_device $mac
+                        foreach group_device $group_one {
+                            if {[string match "*$group_device*" $name]} {
+                                set found_group "GROUP_ONE"
+                                break
+                            }
+                        }
+                        foreach group_device $group_two {
+                            if {[string match "*$group_device*" $name]} {
+                                set found_group "GROUP_TWO"
+                                break
+                            }
+                        }
+                        break
+                    }
+                }
+                if {$found_device ne "" && $found_group ne ""} {
+                    break
+                }
+            }
+        }
+    }
+    send -- "scan off\r"
+    expect "Discovery stopped"
+    return [list $found_device $found_group]
+}
+
+# Scan for target devices and set the MAC address
+set scan_result [scan_for_device $device_names $group_one $group_two]
+set device [lindex $scan_result 0]
+set device_group [lindex $scan_result 1]
+
+# Verify the captured MAC address and group
+puts "Using device MAC: $device"
+puts "Device group: $device_group"
+
+# Validate the MAC address
+if {[regexp {^([A-F0-9:]{17})$} $device]} {
+    puts "Using device MAC: $device"
+} else {
+    puts "Error: Invalid MAC address detected: $device"
+    exit 1
+}
+
+# Start bluetoothctl
+spawn bluetoothctl
+expect "Agent registered"
+
+# Pair the radio
+send -- "pair $device\r"
+if {$device_group eq "GROUP_TWO"} {
+    expect {
+        "Confirm passkey" {
+            puts "Passkey confirmation requested for GROUP_TWO."
+            send -- "yes\r"
+            exp_continue
+        }
+    }
+}
+expect {
+    "Pairing successful" { puts "Pairing successful." }
+    timeout { puts "Pairing failed."; exit 1 }
+}
+
+# Trust the radio
+send -- "trust $device\r"
+expect {
+    "trust succeeded" { puts "Device trusted." }
+    timeout { puts "Failed to trust the device."; exit 1 }
+}
+
+# Exit bluetoothctl
+send -- "exit\r"
+expect eof
+
+
+# Save the MAC address and group info
+set script_dir [file dirname [info script]]
+set output_file [file join $script_dir "bt_device_info.txt"]
+set file [open $output_file "w"]
+puts $file "$device $device_group"
+close $file
+puts "MAC address and group information saved to $output_file."
+
