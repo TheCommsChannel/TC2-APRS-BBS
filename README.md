@@ -97,7 +97,7 @@ coming soon. This software is experimental and could have bugs. Bug reports and 
 3. Pairing radio: 
    The first time you connect your radio, it will need to be paired and trusted. The bt_pair.exp makes this process easy. It will search for currently known Bluetooth TNC capable radios ("VR-N76" "UV-PRO" "GA-5WB" "TH-D75" "TH-D74" "VR-N7500") If one is found, it will pair, trust, and save the info in a file for the binding script in the next step. This step only needs to be performed once when you're first setting things up, or wanting to use a different radio.  
 
-    Run the follwing command to go through the pairing process:
+    Put your radio in pairing mode and run the follwing command to go through the pairing process:
     ```sh
     ./bt_pair.exp
    ```   
